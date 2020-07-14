@@ -2,21 +2,26 @@
 
 ### Specifications
 
-In order to know where I have been
+Let's create a new Journey class, it should be responsible for starting a journey, finishing a journey, calculating the fare of a journey, and returning whether or not the journey is complete.
+
+In order to be charged correctly
 As a customer
-I want to see all my previous trips
+I need a penalty charge deducted if I fail to touch in or out
+
+Write up a plan for how you will interact with your code and manually test in IRB.
+
+ Update your test suite to reflect a new Journey class
+
+ Create a new class Journey and move the functionality that relates  to a journey from Oystercard to Journey
+
+ Make sure all tests pass, all existing functionality is preserved
+
+ The #fare method should return the minimum fare (for the moment), or the penalty fare of 6 if there was either no entry station or no exit station.
+
+ Make sure the entire codebase is DRY
+
+ Make sure all methods are three lines or shorter
 
 
 
- Write up a plan for how you will interact with your code and manually test in IRB.
-
- Store the list of journeys as an instance variable and expose it with an attribute reader - you will need to refactor the touch_out method to accept an exit station
-
- Use a hash to store one journey (set of an entry and exit stations)
-
- Write a test that checks that the card has an empty list of journeys by default
-
- Write a test that checks that touching in and out creates one journey
- Keep all code including tests DRY
-
- journey = entry_station, exit_station -> hash key entry => entry_station, exit => exit_station
+ 
