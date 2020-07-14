@@ -75,5 +75,18 @@ describe OysterCard do
       expect(subject.in_journey?).to be false
     end
   end
+  describe '#journeys' do
+    let(:station) {double("station")}
+    it 'a)returns journey logged on oystercard b)touching in and out creates one journey ' do
+      subject.top_up(OysterCard::CARD_LIMIT)
+      subject.touch_in(station)
+      subject.touch_out(station)
+      expect(subject.journeys).to include(:entry_station => station, :exit_station => station)
+      expect(subject.journeys.count).to eq 1
+    end
+    it 'journey list empty by default' do
+      expect(subject.journeys).to be_empty
+    end
+  end
 end
 
