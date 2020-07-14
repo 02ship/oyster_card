@@ -1,5 +1,6 @@
+require_relative 'station'
 class OysterCard
-  attr_reader :balance, :in_use
+  attr_reader :balance, :entry_station
 
   CARD_LIMIT = 90
   MINIMUM_FARE = 1
@@ -16,24 +17,28 @@ class OysterCard
     "topped up #{amount}"
   end
 
-  def deduct(amount)
-    @balance -= amount
-    "#{amount} deducted"
-  end
-
-  def touch_in
+  def touch_in(station)
     raise "minimum limit: #{MINIMUM_FARE} required" if balance < MINIMUM_FARE
 
       @in_use = true
+      @entry_station = station
       "Touch-in successful"
   end
 
   def touch_out
     @in_use = false
+    @entry_station = nil
+    deduct(MINIMUM_FARE)
     "Touch-out successful"
   end
 
   def in_journey?
-    @in_use
+    entry_station != nil ? true : false
+  end
+
+  private
+
+  def deduct(amount)
+    @balance -= amount
   end
 end
