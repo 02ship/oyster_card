@@ -58,9 +58,8 @@ describe OysterCard do
     it 'stores exit station' do
       subject.top_up(OysterCard::MINIMUM_FARE)
       subject.touch_in(station)
-      exit_station = Station.new
-      subject.touch_out(exit_station)
-      expect(subject.exit_station).to eq(exit_station) 
+      subject.touch_out(station)
+      expect(subject.exit_station).to eq(station)
     end
   end
   describe '#in_journey?' do
@@ -89,4 +88,3 @@ describe OysterCard do
     end
   end
 end
-
