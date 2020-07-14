@@ -41,21 +41,28 @@ describe OysterCard do
   describe '#touch_out' do
     let(:station) {double("station")}
     it 'allows a card to register the end of a journey' do
-      expect(subject.touch_out).to eq("Touch-out successful")
+      expect(subject.touch_out(station)).to eq("Touch-out successful")
     end
     it 'deducts the minimum fare from the balance upon journey completion' do
       subject.top_up(OysterCard::MINIMUM_FARE)
       subject.touch_in(station)
-      expect { subject.touch_out }.to change{ subject.balance }.by(-OysterCard::MINIMUM_FARE)
+      expect { subject.touch_out(station) }.to change{ subject.balance }.by(-OysterCard::MINIMUM_FARE)
     end
     it 'clears the entry station history' do
       subject.top_up(OysterCard::MINIMUM_FARE)
       subject.touch_in(station)
-      subject.touch_out
+      subject.touch_out(station)
       expect(subject.entry_station).to be_nil
     end
-  end
 
+    it 'stores exit station' do
+      subject.top_up(OysterCard::MINIMUM_FARE)
+      subject.touch_in(station)
+      exit_station = Station.new
+      subject.touch_out(exit_station)
+      expect(subject.exit_station).to eq(exit_station) 
+    end
+  end
   describe '#in_journey?' do
     let(:station) {double("station")}
     it 'marks a card as in-use' do
@@ -64,8 +71,9 @@ describe OysterCard do
       expect(subject.in_journey?).to be true
     end
     it 'marks a card as not in-use' do
-      subject.touch_out
+      subject.touch_out(station)
       expect(subject.in_journey?).to be false
     end
   end
 end
+

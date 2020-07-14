@@ -1,6 +1,6 @@
 require_relative 'station'
 class OysterCard
-  attr_reader :balance, :entry_station
+  attr_reader :balance, :entry_station, :exit_station
 
   CARD_LIMIT = 90
   MINIMUM_FARE = 1
@@ -25,8 +25,9 @@ class OysterCard
       "Touch-in successful"
   end
 
-  def touch_out
+  def touch_out(station)
     @in_use = false
+    @exit_station = station
     @entry_station = nil
     deduct(MINIMUM_FARE)
     "Touch-out successful"
