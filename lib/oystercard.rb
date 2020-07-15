@@ -13,7 +13,7 @@ class OysterCard
   end
 
   def top_up(amount)
-    raise "card limit: #{CARD_LIMIT} reached" if amount > CARD_LIMIT
+    raise "card limit: #{CARD_LIMIT} reached" if amount + balance > CARD_LIMIT
 
     @balance += amount
     "topped up #{amount}"
