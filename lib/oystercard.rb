@@ -19,14 +19,14 @@ class OysterCard
     "topped up #{amount}"
   end
 
-  def touch_in(station)
+  def touch_in(station, journey = Journey.new(station))
     raise "minimum limit: #{MINIMUM_FARE} required" if balance < MINIMUM_FARE
-      @current_journey = Journey.new(station)
+      @current_journey = journey
   end
 
-  def touch_out(station)
-    deduct(fare)
-    @current_journey.complete_journey(station)
+  def touch_out(station, journey = Journey.new(nil, station))
+    @current_journey == nil ? @current_journey = journey : @current_journey.complete_journey(station)
+    deduct(@current_journey.fare)
     add_journey
   end
 
@@ -45,9 +45,9 @@ class OysterCard
     @balance -= amount
   end
 
-  def fare
-    return MINIMUM_FARE unless @current_journey == nil
-    @current_journey = Journey.new
-    PENALTY_FARE
-  end
+#  def fare
+#    return MINIMUM_FARE unless @current_journey == nil
+#    @current_journey = Journey.new
+#    PENALTY_FARE
+#  end
 end

@@ -7,9 +7,16 @@ class Journey
 
   def complete_journey(station)
     @exit_station = station
+    self
   end
 
-end
+  def complete?
+    (@exit_station && @entry_station) != nil ? true : false
+  end
 
-#entry station
-#exit station
+  def fare
+    return OysterCard::MINIMUM_FARE unless !complete?
+    @current_journey = Journey.new
+    OysterCard::PENALTY_FARE
+  end
+end
